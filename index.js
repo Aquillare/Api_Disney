@@ -4,6 +4,9 @@ import express from 'express';
 //Inicializamos un variable que contenga a express
 const app = express();
 
+//importamos modulo enrutador
+import routerApi from './routes/index.js';
+
 
 //inicializiamos una variable para almacenar el puerto donde correra la app
 //si no hay variable de entorno, usara el puerto 3000.
@@ -15,7 +18,10 @@ app.get('/', (req,res) => {
 })
 
 
-//indicamos a express en que puerto escuchara el servidor.
+//llamamos al modulo enrutador
+routerApi(app);
+
+//indicamos a express en que puerto escuchará el servidor.
 app.listen(port, () => {
     console.log(`linstening in port ${port}`)
 });
