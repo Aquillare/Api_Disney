@@ -4,6 +4,9 @@ import express from 'express';
 //Inicializamos un variable que contenga a express
 const app = express();
 
+//Middleware para recibir informacion en formato JSON
+app.use(express.json());
+
 //importamos modulo enrutador
 import routerApi from './routes/index.js';
 
