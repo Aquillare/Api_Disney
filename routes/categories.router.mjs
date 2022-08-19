@@ -63,7 +63,7 @@ router.patch('/:id', async(req,res,next) =>{
 })
 
 //endpoint para eliminacion de categorias
-router.delete(':/id', async(req,res,next) =>{
+router.delete('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
 
@@ -75,6 +75,8 @@ router.delete(':/id', async(req,res,next) =>{
         //next(error);
     }
 });
+
+
 
 //Accion/aventura
 //Animacion
