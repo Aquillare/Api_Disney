@@ -1,18 +1,26 @@
 import express from "express";
 
+import { CategoryService } from "../services/category.services.mjs";
+
 
 //Declaramos una variable router que contendrá el metodo router de express.
 const router = express.Router();
+
+//Inicializamos una instacia del servicio CategoryService
+const service = new CategoryService; 
 
 
 //Ruta principal endpoint categories.
 router.get('/', async(req,res,next) =>{
     try {
+
+        const categories = await service.find()
+
         res.status(200).json({
-            message:'categories'
+            categories,
         });
     } catch (error) {
-        //next(error);
+        console.log(error);
     }
 } );
 
@@ -20,10 +28,11 @@ router.get('/', async(req,res,next) =>{
 router.post('/', async(req,res,next) =>{
     try {
         const body = req.body;
+        const newCategory = await service.create(body);
 
         res.status(201).json({
             message:'created',
-            data:body
+            newCategory
         })
     } catch (error) {
         //next(error);
@@ -36,9 +45,11 @@ router.put('/:id', async(req,res,next) =>{
         const {id} = req.params;
         const body = req.body;
 
+        const updateCategory = await service.update(id,body);
+
         res.status(201).json({
             message:"update",
-            data:body,
+            data:updateCategory,
             id
         })
     } catch (error) {
@@ -52,10 +63,11 @@ router.patch('/:id', async(req,res,next) =>{
         const {id} = req.params;
         const body = req.body;
 
+        const updateCategory = await service.update(id,body);
+
         res.status(201).json({
             message:'update',
-            data: body,
-            id,
+            data: updateCategory,
         });
     } catch (error) {
         //next(error);
@@ -67,9 +79,11 @@ router.delete('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
 
+        const deleteCategory = await service.delete(id);
+
         res.status(201).json({
             message:'deleted',
-            id,
+            deleteCategory
         });
     } catch (error) {
         //next(error);
