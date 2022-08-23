@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import faker from 'faker';
 
 class CategoryService {
 
@@ -11,7 +11,7 @@ class CategoryService {
 
         for(let i = 0; i < 10; i++){
             this.categories.push({
-                name:faker.name.fullName()
+                name:faker.name,
             });
         };
         

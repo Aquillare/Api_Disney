@@ -1,4 +1,4 @@
-import {faker} from '@faker-js/faker';
+import faker from 'faker';
 
 class MoviesService {
 
@@ -11,7 +11,7 @@ class MoviesService {
         for(let i = 0; i < 20; i++){
             this.movies.push({
                 image: faker.image.nature(),
-                name: faker.name.firstName(),
+                name: faker.name,
                 date: faker.date.between('2020','2022'),
                 rating: Math.ceil(Math.random() * 5),
             });

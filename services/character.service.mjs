@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import faker from 'faker';
 
 class CharacterService {
 
@@ -11,7 +11,7 @@ class CharacterService {
         for(let i = 0; i < 20; i++){
             this.characters.push({
                 image: faker.image.people(),
-                name: faker.name.fullName(),
+                name: faker.name,
                 age: Math.ceil(Math.random() * 40),
                 heigth: `${Math.ceil(Math.random() * 40)} kg`,
                 history: faker.lorem.lines(5),
