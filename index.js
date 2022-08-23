@@ -1,11 +1,14 @@
 //Importacion de express
 import express from 'express';
+import cors from 'cors';
 
 //Inicializamos un variable que contenga a express
 const app = express();
 
 //Middleware para recibir informacion en formato JSON
 app.use(express.json());
+
+
 
 //importamos modulo enrutador
 import routerApi from './routes/index.js';
@@ -14,6 +17,8 @@ import routerApi from './routes/index.js';
 //inicializiamos una variable para almacenar el puerto donde correra la app
 //si no hay variable de entorno, usara el puerto 3000.
 const port = process.env.PORT || 3000;
+
+app.use(cors());
 
 //definimos una ruta con el metodo get de express
 app.get('/', (req,res) => {
