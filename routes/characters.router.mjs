@@ -17,7 +17,7 @@ router.get('/', async(req,res,next) =>{
             characters
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 } );
 
@@ -35,7 +35,7 @@ router.post('/', async(req,res,next) =>{
             
         })
     } catch (error) {
-        //next(error);
+        throw error;
     }
 });
 
@@ -54,7 +54,7 @@ router.put('/:id', async(req,res,next) =>{
             id
         })
     } catch (error) {
-        //next(error);
+        throw error;
     }
 })
 
@@ -73,7 +73,7 @@ router.patch('/:id', async(req,res,next) =>{
             id,
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 })
 
@@ -89,7 +89,7 @@ router.delete('/:id', async(req,res,next) =>{
             id: deleteCharacter.id
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 });
 

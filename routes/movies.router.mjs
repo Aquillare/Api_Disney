@@ -17,7 +17,7 @@ router.get('/', async(req,res,next) =>{
             movies
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 } );
 
@@ -34,7 +34,7 @@ router.post('/', async(req,res,next) =>{
             newMovie
         })
     } catch (error) {
-        //next(error);
+        throw error;
     }
 });
 
@@ -53,7 +53,7 @@ router.put('/:id', async(req,res,next) =>{
             id
         })
     } catch (error) {
-        //next(error);
+        throw error;
     }
 })
 
@@ -72,7 +72,7 @@ router.patch('/:id', async(req,res,next) =>{
             id,
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 })
 
@@ -88,7 +88,7 @@ router.delete('/:id', async(req,res,next) =>{
             id:deleteMovie.id
         });
     } catch (error) {
-        //next(error);
+        throw error;
     }
 });
 

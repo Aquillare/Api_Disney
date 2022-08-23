@@ -35,7 +35,7 @@ router.post('/', async(req,res,next) =>{
             newCategory
         })
     } catch (error) {
-        //next(error);
+        y;
     }
 });
 
@@ -53,7 +53,7 @@ router.put('/:id', async(req,res,next) =>{
             id
         })
     } catch (error) {
-        //next(error);
+        y;
     }
 })
 
@@ -70,7 +70,7 @@ router.patch('/:id', async(req,res,next) =>{
             data: updateCategory,
         });
     } catch (error) {
-        //next(error);
+        y;
     }
 })
 
@@ -86,7 +86,7 @@ router.delete('/:id', async(req,res,next) =>{
             deleteCategory
         });
     } catch (error) {
-        //next(error);
+        y;
     }
 });
 
