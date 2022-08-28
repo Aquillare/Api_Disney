@@ -9,7 +9,7 @@ const config = require('../config/config.js');
     },
     production:{
         url: config.dbUrl,
-        dialectOptions: 'postgres',
+        dialect: 'postgres',
         dialectOptions:{
             ssl:{
                 rejectUnauthorized: false
