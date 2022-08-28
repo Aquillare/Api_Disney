@@ -1,25 +1,12 @@
-import faker from 'faker';
+const { Boom } = require('@hapi/boom');
+const {models} = require('../libs/sequelize');
 
 class CategoryService {
 
-    constructor (){
-        this.categories = [];
-        this.generate();
-    }
-
-    generate(){
-
-        for(let i = 0; i < 10; i++){
-            this.categories.push({
-                name:faker.name,
-            });
-        };
-        
-    };
-
     async create(data){
         try {
-            return data
+            const newCategory = await models.Category.create(data);
+            return newCategory;
         } catch (error) {
             throw error;
         };
@@ -35,9 +22,10 @@ class CategoryService {
 
     async findOne(id){
         try {
-            return{id};
+            const category = await models.Category.findByPk(id);
+            return category;
         } catch (error) {
-            throw error;
+            throw Boom.notFound('category not found');
         };
     };
 
@@ -48,17 +36,19 @@ class CategoryService {
                 changes
             };
         } catch (error) {
-            throw error;
+            throw Boom.notFound('category not found');
         };
     };
 
     async delete(id){
         try {
+            const category = await this.findOne(id);
+            await category.destroy();
             return {id};
         } catch (error) {
-            throw error;
+            throw Boom.notFound('category not found');
         }
     }
 };
 
-export {CategoryService};
+module.exports = {CategoryService};

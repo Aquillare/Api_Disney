@@ -1,26 +1,12 @@
-import faker from 'faker';
+const {Boom} = require('@hapi/boom');
+const {models} = require('../libs/sequelize');
 
 class MoviesService {
 
-    constructor(){
-        this.movies = [];
-        this.generate();
-    };
-
-    generate(){
-        for(let i = 0; i < 20; i++){
-            this.movies.push({
-                image: faker.image.nature(),
-                name: faker.name,
-                date: faker.date.between('2020','2022'),
-                rating: Math.ceil(Math.random() * 5),
-            });
-        };
-    };
-
     async create(data){
         try {
-            return data;
+            const movie = await models.Movie.create(data);
+            return movie;
         } catch (error) {
             throw error;
         };
@@ -36,9 +22,12 @@ class MoviesService {
 
     async findOne(id){
         try {
-            return {id};
+            const movie = await models.Movie.findByPk(id , {
+                include:['characters']
+            });
+            return movie;
         } catch (error) {
-            throw error
+            throw Boom.notFound('movie not found');
         };
     };
 
@@ -49,7 +38,7 @@ class MoviesService {
                 changes
             }
         } catch (error) {
-            throw error;
+            throw Boom.notFound('movie not found');
         };
     };
 
@@ -57,7 +46,7 @@ class MoviesService {
         try {
             return {id};
         } catch (error) {
-            throw error
+            throw Boom.notFound('movie not found');
         };
     };
 
@@ -72,4 +61,4 @@ Date
 Rating
 */
 
-export {MoviesService}
+module.exports = {MoviesService}
