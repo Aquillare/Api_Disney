@@ -1,6 +1,11 @@
 //Importacion de express
-import express from 'express';
-import cors from 'cors';
+const express = require('express');
+//constamos modulo enrutador
+const routerApi = require('./routes/index.js');
+const cors = require('cors');
+const { logsError, errorHandler, boomErrorHanlder, ormErrorHandler } = require('./middleware/error.handler.js');
+const fileUpload = require('express-fileUpload');
+
 
 //Inicializamos un variable que contenga a express
 const app = express();
@@ -8,10 +13,10 @@ const app = express();
 //Middleware para recibir informacion en formato JSON
 app.use(express.json());
 
+app.use(fileUpload());
+app.use(express.static('files'));
 
 
-//importamos modulo enrutador
-import routerApi from './routes/index.js';
 
 
 //inicializiamos una variable para almacenar el puerto donde correra la app
@@ -26,8 +31,19 @@ app.get('/', (req,res) => {
 })
 
 
+app.get('/:img', function(req, res){
+    res.sendFile( `./files/${img}` );
+}); 
+
+
+
 //llamamos al modulo enrutador
 routerApi(app);
+
+app.use(logsError);
+app.use(ormErrorHandler);
+app.use(boomErrorHanlder);
+app.use(errorHandler);
 
 //indicamos a express en que puerto escuchará el servidor.
 app.listen(port, () => {
