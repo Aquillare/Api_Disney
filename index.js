@@ -4,7 +4,7 @@ const express = require('express');
 const routerApi = require('./routes/index.js');
 const cors = require('cors');
 const { logsError, errorHandler, boomErrorHanlder, ormErrorHandler } = require('./middleware/error.handler.js');
-const fileUpload = require('express-fileUpload');
+const fileUpload = require('express-fileupload');
 
 
 //Inicializamos un variable que contenga a express
