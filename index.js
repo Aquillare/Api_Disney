@@ -31,10 +31,6 @@ app.get('/', (req,res) => {
 })
 
 
-app.get('/:img', function(req, res){
-    res.sendFile( `./files/${img}` );
-}); 
-
 
 
 //llamamos al modulo enrutador
