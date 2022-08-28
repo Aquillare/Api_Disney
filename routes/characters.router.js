@@ -1,55 +1,56 @@
-import express from "express";
-import { MoviesService } from "../services/movie.service.mjs";
+const express = require("express");
+const { CharacterService } = require("../services/character.service.js");
 
 //Declaramos una variable router que contendrá el metodo router de express.
 const router = express.Router();
 
-//Declaramos una istancia de la clase MoviesService.
-const service = new MoviesService;
+//Inicializamos una instacia del servicio CharacterService;
+const service = new CharacterService;
 
-//Ruta principal endpoint movies.
+
+//Ruta principal endpoint characters.
 router.get('/', async(req,res,next) =>{
     try {
-
-        const movies = await service.find();
+        const characters = await service.find();
 
         res.status(200).json({
-            movies
+            characters
         });
     } catch (error) {
         throw error;
     }
 } );
 
-//endpoint para Creacion de Movies
+//endpoint para Creacion de characters
 router.post('/', async(req,res,next) =>{
     try {
         const body = req.body;
         //const image = req.files.image;
 
-        const newMovie = await service.create(body);
+        const newCharacter = await service.create(body);
 
         res.status(201).json({
             message:'created',
-            newMovie
+            newCharacter,
+            
         })
     } catch (error) {
         throw error;
     }
 });
 
-//endpoint para actualizacion de Movies.
+//endpoint para actualizacion de characters.
 router.put('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
         const body = req.body;
         //const image = req.files.image;
 
-        const updateMovie = await service.update(id,body);
+        const updateCharacter = await service.update(id,body);
 
         res.status(201).json({
             message:"update",
-            updateMovie,
+            updateCharacter,
             id
         })
     } catch (error) {
@@ -57,18 +58,18 @@ router.put('/:id', async(req,res,next) =>{
     }
 })
 
-//endpoint para actualizacion parcial de Movies.
+//endpoint para actualizacion parcial de characters.
 router.patch('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
         const body = req.body;
         //const image = req.files.image;
 
-        const updateMovie = await service.update(id,body);
+        const updateCharacter = await service.update(id,body);
 
         res.status(201).json({
             message:'update',
-            updateMovie,
+            updateCharacter,
             id,
         });
     } catch (error) {
@@ -76,20 +77,30 @@ router.patch('/:id', async(req,res,next) =>{
     }
 })
 
-//endpoint para eliminacion de Movies
+//endpoint para eliminacion de characters
 router.delete('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
 
-        const deleteMovie = await service.delete(id);
+        const deleteCharacter = await service.delete(id);
 
         res.status(201).json({
             message:'deleted',
-            id:deleteMovie.id
+            id: deleteCharacter.id
         });
     } catch (error) {
         throw error;
     }
 });
 
-export default router;
+/* Characters
+
+Image
+Name
+Age
+Heigth
+History
+Movies
+s
+*/
+module.exports = router;

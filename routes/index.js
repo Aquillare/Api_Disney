@@ -1,11 +1,11 @@
 //Ruta principal
 
-import express from "express";
+const express = require("express");
 
-//importación de rutas
-import categoriesRouter from './categories.router.mjs';
-import charactersRouter from './characters.router.mjs';
-import moviesRouter from './movies.router.mjs';
+//constación de rutas
+const categoriesRouter = require('./categories.router.js');
+const charactersRouter = require('./characters.router.js');
+const moviesRouter = require('./movies.router.js');
 
 //declaramos la función donde llamamos al método router de express
 /**
@@ -22,4 +22,4 @@ function routerApi(app){
     router.use('/characters', charactersRouter);
 };
 
-export default routerApi;
+module.exports = routerApi;

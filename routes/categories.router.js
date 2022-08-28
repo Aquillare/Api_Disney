@@ -1,6 +1,7 @@
-import express from "express";
+const express = require("express");
+const {routeImg} = require('../uploadImg');
 
-import { CategoryService } from "../services/category.services.mjs";
+const { CategoryService } = require("../services/category.services.js");
 
 
 //Declaramos una variable router que contendrá el metodo router de express.
@@ -13,7 +14,6 @@ const service = new CategoryService;
 //Ruta principal endpoint categories.
 router.get('/', async(req,res,next) =>{
     try {
-
         const categories = await service.find()
 
         res.status(200).json({
@@ -24,18 +24,44 @@ router.get('/', async(req,res,next) =>{
     }
 } );
 
+router.get('/:id', async(req,res,next) =>{
+    try {
+        const {id} = req.params;
+        const category = await service.findOne(id);
+
+        res.status(200).json({
+            category
+        });
+    } catch (error) {
+        next(error);
+    }
+} );
+
 //endpoint para Creacion de categorias
 router.post('/', async(req,res,next) =>{
     try {
         const body = req.body;
-        const newCategory = await service.create(body);
+        const files = req.files.sampleFile;
+        const uploadPath = routeImg + files.name;
+        files.mv(uploadPath, function(err){
+            if(err){
+                throw err;
+            }
+        });
+
+        const data ={
+            ...body,
+            image: uploadPath,
+        }
+
+        const newCategory = await service.create(data);
 
         res.status(201).json({
             message:'created',
             newCategory
         })
     } catch (error) {
-        y;
+        next(error);
     }
 });
 
@@ -53,7 +79,7 @@ router.put('/:id', async(req,res,next) =>{
             id
         })
     } catch (error) {
-        y;
+        next(error);
     }
 })
 
@@ -70,7 +96,7 @@ router.patch('/:id', async(req,res,next) =>{
             data: updateCategory,
         });
     } catch (error) {
-        y;
+        next(error);
     }
 })
 
@@ -86,7 +112,7 @@ router.delete('/:id', async(req,res,next) =>{
             deleteCategory
         });
     } catch (error) {
-        y;
+        next(error);
     }
 });
 
@@ -100,4 +126,4 @@ router.delete('/:id', async(req,res,next) =>{
 //Infantil
 //Cortos
 
-export default router;
+module.exports = router;
