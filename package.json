@@ -8,10 +8,10 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "lint": "eslint",
-    "migrations:generate":"sequelize-cli migration:generate --name",
-    "migrations:run":"sequelize-cli db:migrate",
-    "migrations:revert":"sequelize-cli db:migrate:undo",
-    "migrations:delete":"sequelize-cli db:migrate:undo:all"
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all"
   },
   "author": "Miguel Aguilar",
   "license": "MIT",
@@ -26,7 +26,8 @@
     "nodemon": "^2.0.19",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.21.4"
+    "sequelize": "^6.21.4",
+    "sequelize-cli": "^6.4.1"
   },
   "engines": {
     "node": "16.17.0"
