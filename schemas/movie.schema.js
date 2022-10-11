@@ -5,18 +5,21 @@ const name = Joi.string().min(2).max(40);
 const image = Joi.string().uri();
 const creationDate = Joi.string().min(10).max(10);
 const categoryId = Joi.number().integer();
+const rating = Joi.number().integer();
 
 const createMovieSchema = Joi.object({
     name: name.required(),
     image: image.required(),
     creationDate: creationDate.required(),
-    categoryId: Joi.array([categoryId.required()])
+    rating: rating.required(),
+    categoryId: categoryId.required(),
 });
 
 const updateMovieSchema = Joi.object({
     name: name,
     image: image,
     creationDate: creationDate,
+    rating: rating,
     categoryId: Joi.array([categoryId])
 });
 
