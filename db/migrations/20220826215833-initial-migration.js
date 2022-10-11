@@ -4,8 +4,7 @@ const { DataTypes, Sequelize } = require('sequelize');
 const {CATEGORY_TABLE} = require('../models/category.model.js');
 const {MOVIE_TABLE} = require('../models/movie.model.js');
 const {CHARACTER_TABLE} = require('../models/character.model.js'); 
-const {CHARACTER_MOVIE_TABLE} = require('../models/character-movie.js');
-const {MOVIE_CATEGORY_TABLE} = require('../models/movie-category.model.js');
+const {CHARACTER_MOVIE_TABLE} = require("../models/character-movie.model");
 
 module.exports = {
   async up (queryInterface) {
@@ -53,12 +52,28 @@ module.exports = {
           allowNull: false,
           type: DataTypes.STRING
       },
+      rating:{
+        allowNull:false,
+        type: DataTypes.INTEGER,
+      },
+      categoryId:{
+        allowNull: false,
+        field: 'category_id',
+        type: DataTypes.INTEGER,
+        references:{
+          model: CATEGORY_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
       createdAt:{
-          allowNull: false,
-          field: 'created_at',
-          defaultValue: Sequelize.NOW,
-          type: DataTypes.DATE
+        allowNull: false,
+        field: 'created_at',
+        defaultValue: Sequelize.NOW,
+        type: DataTypes.DATE
       }
+      
     });
 
     await queryInterface.createTable(CHARACTER_TABLE,{
@@ -90,95 +105,56 @@ module.exports = {
           type: DataTypes.TEXT
       },
       createdAt:{
-          allowNull: false,
-          field: 'created_at',
-          defaultValue: Sequelize.NOW,
-          type: DataTypes.DATE
+        allowNull: false,
+        field: 'created_at',
+        defaultValue: Sequelize.NOW,
+        type: DataTypes.DATE
       }
     });
 
-    await queryInterface.createTable(CHARACTER_MOVIE_TABLE,{
-      id:{
+    await queryInterface.createTable(CHARACTER_MOVIE_TABLE, {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      createdAt:{
-        allowNull: false,
-        type: DataTypes.DATE,
-        field:'created_at',
-        defaultValue: Sequelize.NOW
+      MovieId:{
+          allowNull: false,
+          field:'movie_id',
+          type: DataTypes.INTEGER,
+          references:{
+              model: MOVIE_TABLE,
+              key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL'
       },
-      charcaterId:{
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'character_id',
-        references:{
-            model: CHARACTER_TABLE,
-            key: 'id'
-        },
-        onUpdate:'CASCADE',
-        onDelete:'CASCADE',
-      },
-      movieId:{
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'movie_id',
-        references:{
-            model: MOVIE_TABLE,
-            key: 'id'
-        },
-        onUpdate:'CASCADE',
-        onDelete:'SET NULL',
-      },  
-    });
-
-    await queryInterface.createTable(MOVIE_CATEGORY_TABLE,{
-      id:{
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
+      CharacterId:{
+          allowNull: false,
+          field:'character_id',
+          type: DataTypes.INTEGER,
+          references:{
+              model: CHARACTER_TABLE,
+              key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL'
       },
       createdAt:{
         allowNull: false,
-        type: DataTypes.DATE,
-        field:'created_at',
-        defaultValue: Sequelize.NOW
-      },
-      movieId:{
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'movie_id',
-        references:{
-            model: MOVIE_TABLE,
-            key: 'id'
-        },
-        onUpdate:'CASCADE',
-        onDelete:'CASCADE',
-      },
-      categoryId:{
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        field: 'category_id',
-        references:{
-            model: CATEGORY_TABLE,
-            key: 'id'
-        },
-        onUpdate:'CASCADE',
-        onDelete:'RESTRICT',
-      },  
+        field: 'created_at',
+        defaultValue: Sequelize.NOW,
+        type: DataTypes.DATE
+      }
     });
-
   },
 
   async down (queryInterface) {
-    
     await queryInterface.dropTable( CHARACTER_MOVIE_TABLE);
-    await queryInterface.dropTable( MOVIE_CATEGORY_TABLE);
-    await queryInterface.dropTable( CATEGORY_TABLE);
     await queryInterface.dropTable( CHARACTER_TABLE);
     await queryInterface.dropTable( MOVIE_TABLE);
+    await queryInterface.dropTable( CATEGORY_TABLE);
+    
   }
 };

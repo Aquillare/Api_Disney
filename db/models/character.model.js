@@ -1,5 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const {MOVIE_TABLE} = require('./movie.model');
+
+
+
 
 const CHARACTER_TABLE = 'characters';
 
@@ -36,25 +38,20 @@ const CharacterSchema = {
         field: 'created_at',
         defaultValue: Sequelize.NOW,
         type: DataTypes.DATE
-    }
+      }
 };
 
 class Character extends Model{
 
     static associate(models){
-        this.belongsToMany(models.Movie,{
-            as: 'movies',
-            through: models.CharacterMovie,
-            foreignKey:'characterId',
-            otherKey:'movieId'
-        });
+        this.belongsToMany(models.Movie,{through: models.CharacterMovie, as:'movies'});
     }
 
     static config(sequelize){
         return{
             sequelize,
-            tableName:MOVIE_TABLE,
-            modelName:'Movie',
+            tableName:CHARACTER_TABLE,
+            modelName:'Character',
             timestamps:false
         }
     }
