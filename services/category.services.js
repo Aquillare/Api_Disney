@@ -14,7 +14,8 @@ class CategoryService {
 
     async find(){
         try {
-            return this.categories;
+            const categories = await models.Category.findAll();
+            return categories;
         } catch (error) {
             throw error;
         };
@@ -22,19 +23,20 @@ class CategoryService {
 
     async findOne(id){
         try {
-            const category = await models.Category.findByPk(id);
+            const category = await models.Category.findByPk(id, {
+                include:['movie']
+            });
             return category;
         } catch (error) {
-            throw Boom.notFound('category not found');
+            throw error;
         };
     };
 
     async update(id, changes){
         try {
-            return{
-                id,
-                changes
-            };
+            const category = await this.findOne(id);
+            const updateCategory = await category.update(changes);
+            return updateCategory;
         } catch (error) {
             throw Boom.notFound('category not found');
         };

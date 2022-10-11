@@ -14,7 +14,8 @@ class MoviesService {
 
     async find(){
         try {
-            return this.movies;
+            const movies = await models.Movie.findAll();
+            return movies;
         } catch (error) {
             throw error
         };
@@ -23,20 +24,19 @@ class MoviesService {
     async findOne(id){
         try {
             const movie = await models.Movie.findByPk(id , {
-                include:['characters']
+                include:['category','characters']
             });
             return movie;
         } catch (error) {
-            throw Boom.notFound('movie not found');
+            throw error
         };
     };
 
     async update(id,changes){
         try {
-            return {
-                id,
-                changes
-            }
+            const movie = await this.findOne(id);
+            const updateMovie = await movie.update(changes);
+            return updateMovie;
         } catch (error) {
             throw Boom.notFound('movie not found');
         };
@@ -44,6 +44,8 @@ class MoviesService {
 
     async delete(id){
         try {
+            const movie = await this.findOne(id);
+            await movie.destroy();
             return {id};
         } catch (error) {
             throw Boom.notFound('movie not found');

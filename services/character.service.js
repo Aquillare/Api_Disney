@@ -6,6 +6,12 @@ class CharacterService {
     async create(data){
         try {
             const newCharacter = await models.Character.create(data);
+            const movies = data.movies;
+             movies.forEach( async (m) => {
+                const movieToAdd = await models.Movie.findByPk(m);
+                await newCharacter.addMovie(movieToAdd);
+            });
+          
             return newCharacter;
         } catch (error) {
             throw error;
@@ -14,7 +20,8 @@ class CharacterService {
 
     async find(){
         try{
-            return this.characters;
+            const characters = await models.Character.findAll();
+            return characters;
         } catch (error){
             throw error;
         }
@@ -27,16 +34,16 @@ class CharacterService {
             });
             return character;
         } catch (error){
-            throw Boom.notFound('character not found');
+           // throw Boom.notFound('character not found');
+           throw error
         }
     }
 
     async update(id, changes){
         try{
-            return {
-                id,
-                changes
-            };
+           const character = await this.findOne(id);
+           const updateCharacter = await character.update(changes);
+           return updateCharacter;
         } catch (error){
             throw Boom.notFound('character not found');
         }
@@ -44,7 +51,9 @@ class CharacterService {
 
     async delete(id){
         try{
-            return {id};
+            const character = await this.findOne(id);
+            await character.destroy();
+            return{id};
         } catch (error){
             throw Boom.notFound('character not found');
         }
