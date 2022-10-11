@@ -16,7 +16,7 @@ function errorHandler(error, req, res, next){
 
 //Middleware para recibir los errores de tipo boom
 function boomErrorHanlder(error, req, res, next){
-    if(err.isBoom){
+    if(error.isBoom){
         const {output} = error;
         res.status(output.statusCode).json(output.payload);
     }else{
