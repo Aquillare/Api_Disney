@@ -1,5 +1,7 @@
 const express = require("express");
-const {routeImg} = require('../uploadImg');
+const fs = require('fs').promises;
+const path = require('path');
+const randomNumber = require('../randomNumber');
 
 const { CategoryService } = require("../services/category.services.js");
 
@@ -42,7 +44,8 @@ router.post('/', async(req,res,next) =>{
     try {
         const body = req.body;
         const files = req.files.sampleFile;
-        const uploadPath = routeImg + files.name;
+        const fileName = `${randomNumber()}${files.name}`;
+        const uploadPath = path.resolve(__dirname, `../public/img/uploads/${fileName}`);
         files.mv(uploadPath, function(err){
             if(err){
                 throw err;
@@ -51,7 +54,7 @@ router.post('/', async(req,res,next) =>{
 
         const data ={
             ...body,
-            image: uploadPath,
+            image: `localhost:3000/api/v1/images/${fileName}`,
         }
 
         const newCategory = await service.create(data);
@@ -104,6 +107,14 @@ router.patch('/:id', async(req,res,next) =>{
 router.delete('/:id', async(req,res,next) =>{
     try {
         const {id} = req.params;
+        const category = await service.findOne(id);
+        const pathImage = category.image.split('/images')[1] ;
+        fs.unlink(`./public/img/uploads/${pathImage}`)
+        .then(() => {
+            console.log('File removed')
+        }).catch(err => {
+            console.error('Something wrong happened removing the file', err)
+        })
 
         const deleteCategory = await service.delete(id);
 
@@ -115,7 +126,6 @@ router.delete('/:id', async(req,res,next) =>{
         next(error);
     }
 });
-
 
 
 //Accion/aventura

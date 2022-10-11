@@ -6,6 +6,7 @@ const express = require("express");
 const categoriesRouter = require('./categories.router.js');
 const charactersRouter = require('./characters.router.js');
 const moviesRouter = require('./movies.router.js');
+const imagesRouter = require('./images.router.js');
 
 //declaramos la función donde llamamos al método router de express
 /**
@@ -20,6 +21,7 @@ function routerApi(app){
     router.use('/movies', moviesRouter);
     router.use('/categories', categoriesRouter);
     router.use('/characters', charactersRouter);
+    router.use('/images', imagesRouter);
 };
 
 module.exports = routerApi;
